@@ -50,7 +50,7 @@ export const getAllUsers = catchAsyncErrors(async(req,res,next)=>{
     const previousMonthStart = new Date(today.getFullYear(), today.getMonth() -1, 1)
 
     const previousMonthEnd = new Date(today.getFullYear(), today.getMonth(), 0)
-    const currentMonthEnd = new Date(today.getFullYear(), today.getMonth(), 0)
+    const currentMonthEnd = new Date(today.getFullYear(), today.getMonth()+1, 0)
 
     const totalRevenueAllTimeQuery = await database.query(`SELECT SUM(total_price) FROM orders`)
 
@@ -78,7 +78,7 @@ export const getAllUsers = catchAsyncErrors(async(req,res,next)=>{
     })
 
     const todayRevenueQuery = await database.query(`
-     SELECT SUM(total_price) FROM orders WHERE created_ar::date = $1`,[todayDate])
+     SELECT SUM(total_price) FROM orders WHERE created_at::date = $1`,[todayDate])
         
     const todayRevenue = parseFloat(todayRevenueQuery.rows[0].sum) || 0
 
@@ -90,7 +90,7 @@ export const getAllUsers = catchAsyncErrors(async(req,res,next)=>{
     //Monthly Sales For Line Chart
     const monthlySalesQuery = await database.query(`
       SELECT TO_CHAR(created_at, 'Mon YYYY') AS month,
-      DATE_TRUNC('month',created_at) as date,
+      DATE_TRUNC('month',created_at) AS date,
       SUM(total_price) as totalSales
       FROM orders
       GROUP BY month,date
