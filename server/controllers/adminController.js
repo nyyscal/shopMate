@@ -151,7 +151,7 @@ export const getAllUsers = catchAsyncErrors(async(req,res,next)=>{
      }
 
      //New Users Registered This Month
-     const newUserThisMonthQuery = await database.query(`SELECT COUNT(*) FROM users WHERE created_at >= $1`,[currentMonthStart])
+     const newUserThisMonthQuery = await database.query(`SELECT COUNT(*) FROM users WHERE created_at >= $1 AND role='User'`,[currentMonthStart])
 
      const newUserThisMonth = parseInt(newUserThisMonthQuery.rows[0].count) || 0
 
