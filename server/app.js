@@ -9,6 +9,7 @@ import { errorMiddleware } from "./middleware/errorMiddleware.js"
 
 import authRouter from "./router/authRoutes.js"
 import productRouter from "./router/productRoutes.js"
+import adminRouter from "./router/adminRoutes.js"
 
 const app = express()
 
@@ -33,5 +34,6 @@ app.use(errorMiddleware)
 
 app.use("/api/v1/auth",authRouter)
 app.use("/api/v1/product",productRouter)
+app.use("/api/v1/admin",adminRouter)
 
 export default app
